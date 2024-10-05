@@ -1,18 +1,21 @@
 # knowledge_graph/interface.py
-from knowledge_graph.graph import Graph
+from knowledge_graph.graph import KnowledgeGraph
 
 class KnowledgeGraphAPI:
     def __init__(self):
-        self.graph = Graph()
+        self.graph = KnowledgeGraph()
 
-    def add_node(self, node_id: str, node_type: str):
-        self.graph.add_node(node_id, node_type)
+    def add_node(self, node_id, node_type, properties=None):
+        self.graph.add_node(node_id, node_type, properties)
 
-    def add_edge(self, source_id: str, target_id: str, relationship: str):
+    def add_edge(self, source_id, target_id, relationship):
         self.graph.add_edge(source_id, target_id, relationship)
 
-    def get_node(self, node_id: str):
-        return self.graph.get_node(node_id)
+    def get_node(self, node_id):
+        node_data = self.graph.graph.nodes[node_id]
+        return {"type": node_data["type"], "properties": node_data["properties"]}
 
-    def query(self, query: str):
-        return self.graph.query(query)
+    def query(self, query):
+        nodes = [(node, data) for node, data in self.graph.graph.nodes(data=True)]
+        edges = [(source, target, data) for source, target, data in self.graph.graph.edges(data=True)]
+        return {"nodes": nodes, "edges": edges}

@@ -9,6 +9,7 @@ kg_api = KnowledgeGraphAPI()
 class Node(BaseModel):
     node_id: str
     node_type: str
+    properties: dict
 
 class Edge(BaseModel):
     source_id: str
@@ -17,7 +18,7 @@ class Edge(BaseModel):
 
 @app.post("/nodes/")
 def add_node(node: Node):
-    kg_api.add_node(node.node_id, node.node_type)
+    kg_api.add_node(node.node_id, node.node_type, node.properties)
     return {"message": "Node added successfully"}
 
 @app.post("/edges/")
