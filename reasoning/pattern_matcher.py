@@ -50,24 +50,3 @@ class PatternMatcher:
                 continue
             matching_edges.append((source, target))
         return matching_edges
-
-# Example usage
-if __name__ == "__main__":
-    from knowledge_graph.graph import KnowledgeGraph
-
-    kg = KnowledgeGraph()
-    pattern_matcher = PatternMatcher(kg.graph)
-
-    # Adding nodes and relationships
-    kg.graph.add_node("1", type="Person", properties={"name": "Alice"})
-    kg.graph.add_node("2", type="Person", properties={"name": "Bob"})
-    kg.graph.add_node("3", type="Pet", properties={"name": "Rex", "species": "Dog"})
-    kg.graph.add_edge("1", "3", relationship="owns")
-    kg.graph.add_edge("2", "3", relationship="owns")
-
-    # Match patterns
-    person_nodes = pattern_matcher.match_node_pattern(node_type="Person")
-    pet_owners = pattern_matcher.match_edge_pattern(source_type="Person", relationship="owns")
-
-    print("Person Nodes:", person_nodes)
-    print("Pet Owners:", pet_owners)

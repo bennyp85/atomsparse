@@ -44,25 +44,3 @@ def friends_of_friends_rule(graph):
             for f_of_f in friends_of_friend:
                 if f_of_f != node and not graph.has_edge(node, f_of_f):
                     graph.add_edge(node, f_of_f, relationship='knows')
-
-# Example usage
-if __name__ == "__main__":
-    kg = KnowledgeGraph()
-    rule_engine = RuleEngine(kg.graph)
-
-    # Adding nodes and relationships
-    kg.graph.add_node("1", type="Person", properties={"name": "Alice"})
-    kg.graph.add_node("2", type="Person", properties={"name": "Bob"})
-    kg.graph.add_node("3", type="Person", properties={"name": "Charlie"})
-    kg.graph.add_edge("1", "2", relationship="knows")
-    kg.graph.add_edge("2", "3", relationship="knows")
-
-    # Add and apply rule
-    rule_engine.add_rule(friends_of_friends_rule)
-    rule_engine.apply_rules()
-
-    # Inspect results
-    for node in kg.graph.nodes(data=True):
-        print(node)
-    for edge in kg.graph.edges(data=True):
-        print(edge)
