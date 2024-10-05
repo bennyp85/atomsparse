@@ -1,26 +1,36 @@
 # api.py
 from fastapi import FastAPI
-from knowledge_graph.graph import Graph
+from pydantic import BaseModel
+from knowledge_graph.interface import KnowledgeGraphAPI
 
 app = FastAPI()
-graph = Graph()
+kg_api = KnowledgeGraphAPI()
+
+class Node(BaseModel):
+    node_id: str
+    node_type: str
+
+class Edge(BaseModel):
+    source_id: str
+    target_id: str
+    relationship: str
 
 @app.post("/nodes/")
-def add_node(node_id: str, node_type: str):
-    graph.add_node(node_id, node_type)
+def add_node(node: Node):
+    kg_api.add_node(node.node_id, node.node_type)
     return {"message": "Node added successfully"}
 
 @app.post("/edges/")
-def add_edge(source_id: str, target_id: str, relationship: str):
-    graph.add_edge(source_id, target_id, relationship)
+def add_edge(edge: Edge):
+    kg_api.add_edge(edge.source_id, edge.target_id, edge.relationship)
     return {"message": "Edge added successfully"}
 
 @app.get("/nodes/{node_id}")
 def get_node(node_id: str):
-    node = graph.get_node(node_id)
+    node = kg_api.get_node(node_id)
     return node
 
 @app.get("/query/")
 def query_graph(query: str):
-    results = graph.query(query)
-    return results
+    results = kg_api.query(query)
+    return {"results": results}
