@@ -18,5 +18,13 @@ class TestGraph(unittest.TestCase):
         self.assertIn(("1", "2"), self.kg_api.graph.graph.edges)
         self.assertEqual(self.kg_api.graph.graph.edges["1", "2"]["relationship"], "owns")
 
+    def test_query(self):
+        self.kg_api.add_node("1", "Person")
+        self.kg_api.add_node("2", "Pet")
+        self.kg_api.add_edge("1", "2", "owns")
+        results = self.kg_api.query("some_query")
+        self.assertEqual(results["nodes"], [("1", {"type": "Person"}), ("2", {"type": "Pet"})])
+        self.assertEqual(results["edges"], [("1", "2", {"relationship": "owns"})])
+
 if __name__ == '__main__':
     unittest.main()
