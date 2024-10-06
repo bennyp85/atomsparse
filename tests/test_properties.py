@@ -1,3 +1,5 @@
+# file: /home/ben/atomsparse/tests/test_properties.py
+
 import pytest
 import networkx as nx
 from knowledge_graph.properties import Property
@@ -13,5 +15,5 @@ class TestProperties:
 
     def test_property_invalid(self):
         prop = Property("age", "30", int)
-        with pytest.raises(TypeError, match="Value 30 is not of type <class 'int'>"):
+        with pytest.raises(TypeError, match="Value '30' of property 'age' is not of type <class 'int'>"):
             prop.validate()

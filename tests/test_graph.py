@@ -26,6 +26,26 @@ class TestGraph(unittest.TestCase):
         node = self.graph.get_nodes()
         self.assertEqual(node["1"]["type"], "Person")
 
+    def test_get_edge(self):
+        self.graph.add_node("1", "Person", {"name": "John Doe", "age": 30})
+        self.graph.add_node("2", "Pet", {"name": "Rex", "species": "Dog"})
+        self.graph.add_edge("1", "2", "owns")
+        edge = self.graph.get_edges()
+        self.assertEqual(edge["1"]["2"]["relationship"], "owns")
+
+    def test_delete_node(self):
+        self.graph.add_node("1", "Person", {"name": "John Doe", "age": 30})
+        self.graph.delete_node("1")
+        self.assertNotIn("1", self.graph.graph.nodes)
+
+    def test_delete_edge(self):
+        self.graph.add_node("1", "Person", {"name": "John Doe", "age": 30})
+        self.graph.add_node("2", "Pet", {"name": "Rex", "species": "Dog"})
+        self.graph.add_edge("1", "2", "owns")
+        self.graph.delete_edge("1", "2")
+        self.assertNotIn(("1", "2"), self.graph.graph.edges)
+
+
         
 
 if __name__ == '__main__':

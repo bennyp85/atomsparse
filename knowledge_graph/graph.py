@@ -33,6 +33,11 @@ class KnowledgeGraph:
                 edges[source] = {}
             edges[source][target] = data
         return edges
+    
+    def delete_edge(self, source_id, target_id):
+        if not self.graph.has_edge(source_id, target_id):
+            raise KeyError(f"Edge from {source_id} to {target_id} does not exist.")
+        self.graph.remove_edge(source_id, target_id)
 
     def get_graph(self):
         nodes = self.get_nodes()
