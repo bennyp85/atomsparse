@@ -1,6 +1,7 @@
 # api.py
 
 from fastapi import FastAPI
+from fastapi.exceptions import HTTPException
 from pydantic import BaseModel
 from knowledge_graph.interface import KnowledgeGraphAPI
 
@@ -31,3 +32,11 @@ def add_edge(edge: Edge):
 def get_graph():
     nodes, edges = kg_api.get_graph()
     return {"nodes": nodes, "edges": edges}
+
+@app.delete("/nodes/{node_id}")
+def delete_node(node_id: str):
+    try:
+        kg_api.delete_node(node_id)
+    except KeyError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    return {"message": "Node deleted successfully"}

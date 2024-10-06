@@ -18,6 +18,11 @@ class KnowledgeGraph:
             raise ValueError(f"Edge from {source_id} to {target_id} already exists.")
         self.graph.add_edge(source_id, target_id, relationship=relationship)
 
+    def delete_node(self, node_id):
+        if node_id not in self.graph:
+            raise KeyError(f"Node {node_id} does not exist.")
+        self.graph.remove_node(node_id)
+
     def get_nodes(self):
         return {node: data for node, data in self.graph.nodes(data=True)}
 

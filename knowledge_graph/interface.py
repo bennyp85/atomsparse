@@ -15,6 +15,9 @@ class KnowledgeGraphAPI:
             raise ValueError("source_id, target_id, and relationship are required")
         self.graph.add_edge(source_id, target_id, relationship)
 
+    def delete_node(self, node_id):
+        self.graph.delete_node(node_id)
+
     def get_graph(self):
         nodes, edges = self.graph.get_graph()
         if nodes is None or edges is None:
