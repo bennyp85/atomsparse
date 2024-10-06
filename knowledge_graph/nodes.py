@@ -13,5 +13,6 @@ class Node:
             raise ValueError("Node must have a type.")
         graph.add_node(node_id, **properties)
 
+
     def __repr__(self):
         return f"Node(id={self.node_id}, properties={self.properties})"

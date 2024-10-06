@@ -1,46 +1,51 @@
 # reasoning/rules.py
 
-from knowledge_graph.graph import KnowledgeGraph
-
 class RuleEngine:
-    def __init__(self, graph):
+    def __init__(self, knowledge_graph):
         """
-        Initialize the RuleEngine with a reference to a Knowledge Graph,
-        which will be used to apply and store inferred knowledge.
+        Initialize the RuleEngine with a reference to a Knowledge Graph.
+        
+        :param knowledge_graph: A KnowledgeGraph instance that the engine will manipulate.
         """
-        self.graph = graph
-        self.rules = []
+        self.knowledge_graph = knowledge_graph
+        self.rules = {}
 
-    def add_rule(self, rule):
+    def add_rule(self, rule_name, rule_fn):
         """
-        Add a new rule to the engine. Each rule should be a callable that
-        takes the graph and performs inference.
+        Add a new rule to the engine.
+        
+        :param rule_name: The name of the rule.
+        :param rule_fn: A callable function that implements the rule logic.
         """
-        if callable(rule):
-            self.rules.append(rule)
-        else:
-            raise ValueError("Rule must be a callable function.")
+        if not callable(rule_fn):
+            raise ValueError("rule_fn must be a callable function")
+        self.rules[rule_name] = rule_fn
 
     def apply_rules(self):
         """
-        Apply all rules in the engine to the knowledge graph.
+        Apply all registered rules to the knowledge graph.
+        Calls each rule function, passing the knowledge graph as an argument.
         """
-        for rule in self.rules:
-            rule(self.graph)
+        for rule_name, rule_fn in self.rules.items():
+            print(f"Applying rule: {rule_name}")
+            rule_fn(self.knowledge_graph)
 
-# Example rule functions
-
+# Example rule function
 def friends_of_friends_rule(graph):
     """
-    A simple rule that adds a 'knows' relationship for 'friends of friends'.
-    If A knows B and B knows C, then A knows C.
-    """
-    nodes = graph.nodes()
+    A simple rule to add a 'knows' relationship for 'friends of friends'.
+    If A knows B and B knows C, then A potentially knows C.
     
-    for node in nodes:
-        friends = set(edge[1] for edge in graph.edges(node, data=True) if edge[2]['relationship'] == 'knows')
-        for friend in friends:
-            friends_of_friend = set(edge[1] for edge in graph.edges(friend, data=True) if edge[2]['relationship'] == 'knows')
-            for f_of_f in friends_of_friend:
-                if f_of_f != node and not graph.has_edge(node, f_of_f):
-                    graph.add_edge(node, f_of_f, relationship='knows')
+    :param graph: An instance of KnowledgeGraph.
+    """
+    for node in graph.graph.nodes():
+        # Get direct neighbors of node
+        neighbors = set(graph.graph.neighbors(node))
+        for neighbor in neighbors:
+            # Get second-level neighbors
+            second_neighbors = set(graph.graph.neighbors(neighbor)) - {node}
+            for second_neighbor in second_neighbors:
+                # Add 'knows' relationship if not already present
+                if not graph.graph.has_edge(node, second_neighbor):
+                    print(f"Adding 'knows' relationship: {node} -> {second_neighbor}")
+                    graph.graph.add_edge(node, second_neighbor, relationship='knows')

@@ -1,5 +1,5 @@
 # api.py
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from knowledge_graph.interface import KnowledgeGraphAPI
 
@@ -26,12 +26,4 @@ def add_edge(edge: Edge):
     kg_api.add_edge(edge.source_id, edge.target_id, edge.relationship)
     return {"message": "Edge added successfully"}
 
-@app.get("/nodes/{node_id}")
-def get_node(node_id: str):
-    node = kg_api.get_node(node_id)
-    return node
 
-@app.get("/query/")
-def query_graph(query: str):
-    results = kg_api.query(query)
-    return {"results": results}
