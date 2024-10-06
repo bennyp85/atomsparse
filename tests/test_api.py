@@ -23,6 +23,14 @@ async def test_add_edge():
     assert response.status_code == 200
     assert response.json() == {"message": "Edge added successfully"}
 
+@pytest.mark.asyncio
+async def test_get_graph():
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
+        response = await ac.get("/graph/")
+    assert response.status_code == 200
+    assert response.json() == {"nodes": {"A": {"type": "Person", "properties": {"name": "Alice"}}, "B": {"type": "Person", "properties": {"name": "Bob"}}}, "edges": {"A": {"B": {"relationship": "knows"}}}}
+    
+
 
 
 

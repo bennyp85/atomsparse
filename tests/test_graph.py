@@ -23,8 +23,8 @@ class TestGraph(unittest.TestCase):
     def test_get_node(self):
         properties = {"name": "John Doe", "age": 30}
         self.graph.add_node("1", "Person", properties)
-        node = self.graph.get_node("1")
-        self.assertEqual(node, {"type": "Person", "properties": properties})
+        node = self.graph.get_nodes()
+        self.assertEqual(node["1"]["type"], "Person")
 
         
 

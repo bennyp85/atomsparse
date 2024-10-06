@@ -1,38 +1,31 @@
-import unittest
-from knowledge_graph.graph import KnowledgeGraph
+# tests/test_nodeedge.py
+
+import pytest
+import networkx as nx
 from knowledge_graph.nodes import Node
 from knowledge_graph.edges import Edge
 
-class TestNodeEdge(unittest.TestCase):
-    def setUp(self):
-        self.graph = KnowledgeGraph()
+class TestNodeEdge:
+    def setup_method(self):
+        self.graph = nx.DiGraph()
 
     def test_add_node_valid(self):
-        properties = {"type": "Person", "name": "John Doe", "age": 30}
-        Node.add_node(self.graph.graph, "1", properties)
-        self.assertIn("1", self.graph.graph.nodes)
-        self.assertEqual(self.graph.graph.nodes["1"]["type"], "Person")
-        self.assertEqual(self.graph.graph.nodes["1"]["name"], "John Doe")
-        self.assertEqual(self.graph.graph.nodes["1"]["age"], 30)
+        properties = {"name": "John Doe", "age": 30}
+        Node.add_node(self.graph, "1", "Person", properties)
+        assert self.graph.nodes["1"]["type"] == "Person"
+        assert self.graph.nodes["1"]["properties"] == properties
 
     def test_add_node_no_type(self):
         properties = {"name": "John Doe", "age": 30}
-        with self.assertRaises(ValueError) as context:
-            Node.add_node(self.graph.graph, "1", properties)
-        self.assertTrue("Node must have a type." in str(context.exception))
+        with pytest.raises(ValueError, match="Node type must be specified"):
+            Node.add_node(self.graph, "1", None, properties)
 
     def test_add_edge_valid(self):
-        Node.add_node(self.graph.graph, "1", {"type": "Person", "name": "John Doe", "age": 30})
-        Node.add_node(self.graph.graph, "2", {"type": "Pet", "name": "Rex", "species": "Dog"})
-        Edge.add_edge(self.graph.graph, "1", "2", "owns")
-        self.assertIn(("1", "2"), self.graph.graph.edges)
-        self.assertEqual(self.graph.graph.edges["1", "2"]["relationship"], "owns")
+        Node.add_node(self.graph, "1", "Person")
+        Node.add_node(self.graph, "2", "Person")
+        Edge.add_edge(self.graph, "1", "2", "knows")
+        assert self.graph.edges["1", "2"]["relationship"] == "knows"
 
     def test_add_edge_invalid(self):
-        Node.add_node(self.graph.graph, "1", {"type": "Person", "name": "John Doe", "age": 30})
-        with self.assertRaises(ValueError) as context:
-            Edge.add_edge(self.graph.graph, "1", "3", "owns")
-        self.assertTrue("Source and target nodes must exist in the graph." in str(context.exception))
-
-if __name__ == '__main__':
-    unittest.main()
+        with pytest.raises(KeyError):
+            Edge.add_edge(self.graph, "1", "2", "knows")

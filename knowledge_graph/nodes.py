@@ -6,12 +6,10 @@ class Node:
         self.properties = properties
 
     @staticmethod
-    def add_node(graph, node_id, properties=None):
-        if properties is None:
-            properties = {}
-        if 'type' not in properties:
-            raise ValueError("Node must have a type.")
-        graph.add_node(node_id, **properties)
+    def add_node(graph, node_id, node_type, properties=None):
+        if not node_type:
+            raise ValueError("Node type must be specified")
+        graph.add_node(node_id, type=node_type, properties=properties or {})
 
 
     def __repr__(self):
