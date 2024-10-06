@@ -1,5 +1,0 @@
-networkx
-fastapi
-uvicorn
-httpx
-pytest-asyncio
