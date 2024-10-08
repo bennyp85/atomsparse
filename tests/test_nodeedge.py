@@ -1,31 +1,33 @@
 # tests/test_nodeedge.py
 
 import pytest
-import networkx as nx
+from knowledge_graph.graph import KnowledgeGraph
 from knowledge_graph.nodes import Node
 from knowledge_graph.edges import Edge
 
 class TestNodeEdge:
     def setup_method(self):
-        self.graph = nx.DiGraph()
+        self.graph = KnowledgeGraph()
 
     def test_add_node_valid(self):
         properties = {"name": "John Doe", "age": 30}
-        Node.add_node(self.graph, "1", "Person", properties)
-        assert self.graph.nodes["1"]["type"] == "Person"
-        assert self.graph.nodes["1"]["properties"] == properties
+        self.graph.add_node_by_attributes("1", "Person", properties)
+        nodes = self.graph.get_nodes()
+        assert nodes["1"]["type"] == "Person"
+        assert nodes["1"]["properties"] == properties
 
     def test_add_node_no_type(self):
         properties = {"name": "John Doe", "age": 30}
-        with pytest.raises(ValueError, match="Node type must be specified"):
-            Node.add_node(self.graph, "1", None, properties)
+        with pytest.raises(ValueError):
+            self.graph.add_node_by_attributes("1", "", properties)
 
     def test_add_edge_valid(self):
-        Node.add_node(self.graph, "1", "Person")
-        Node.add_node(self.graph, "2", "Person")
-        Edge.add_edge(self.graph, "1", "2", "knows")
-        assert self.graph.edges["1", "2"]["relationship"] == "knows"
+        self.graph.add_node_by_attributes("1", "Person")
+        self.graph.add_node_by_attributes("2", "Person")
+        self.graph.add_edge(Edge("1", "2", "knows"))
+        edges = self.graph.get_edges()
+        assert edges["1"]["2"]["relationship"] == "knows"
 
     def test_add_edge_invalid(self):
-        with pytest.raises(KeyError):
-            Edge.add_edge(self.graph, "1", "2", "knows")
+        with pytest.raises(ValueError):
+            self.graph.add_edge(Edge("1", "2", "knows"))
