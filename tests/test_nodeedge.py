@@ -18,7 +18,7 @@ class TestNodeEdge:
 
     def test_add_node_no_type(self):
         properties = {"name": "John Doe", "age": 30}
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match="Node type must be specified"):
             self.graph.add_node_by_attributes("1", "", properties)
 
     def test_add_edge_valid(self):

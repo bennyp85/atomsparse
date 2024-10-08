@@ -14,6 +14,8 @@ class KnowledgeGraph:
     def add_node_by_attributes(self, node_id, node_type, properties=None):
         if node_id in self.graph:
             raise ValueError(f"Node {node_id} already exists.")
+        if not node_type:
+            raise ValueError("Node type must be specified")
         self.graph.add_node(node_id, type=node_type, properties=properties or {})
 
     def add_edge(self, edge):
