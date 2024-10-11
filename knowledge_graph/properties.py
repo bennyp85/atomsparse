@@ -2,6 +2,7 @@
 
 from enum import Enum
 from typing import Dict, Any
+from datetime import datetime
 
 class PropertyType(Enum):
     STRING = "string"

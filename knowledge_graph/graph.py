@@ -6,6 +6,12 @@ from knowledge_graph.nodes import Node
 from knowledge_graph.edges import Edge
 from knowledge_graph.properties import PropertyOntology, PropertySchema, PropertyType
 
+from typing import Dict, Any, Tuple, Optional
+from knowledge_graph.relationships import RelationshipType
+from knowledge_graph.nodes import Node
+from knowledge_graph.edges import Edge
+from knowledge_graph.properties import PropertyOntology, PropertySchema, PropertyType
+
 class KnowledgeGraph:
     def __init__(self):
         self.graph: nx.DiGraph = nx.DiGraph()
