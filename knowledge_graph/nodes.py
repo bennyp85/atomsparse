@@ -2,6 +2,30 @@
 from typing import Dict, Optional, Any
 from .properties import NodeType, PropertyOntology
 
+
+"""
+class NodeType(Enum):
+    BOOK = "Book"
+    CHARACTER = "Character"
+    LITERARY_DEVICE = "LiteraryDevice"
+    PLOT_POINT = "PlotPoint"
+    SYMBOLISM = "Symbolism"
+    MOTIF = "Motif"
+    SETTING = "Setting"
+    LOCATION = "Location"
+
+
+class RelationshipType(Enum):
+    IS_A = "is_a"
+    PART_OF = "part_of"
+    CAUSES = "causes"
+    USES = "uses"
+    PARTICIPATES_IN = "participates_in"
+    OCCURS_IN = "occurs_in"
+    INVOLVES = "involves"
+    
+"""
+
 class Node:
     def __init__(self, node_id: str, node_type: NodeType, property_ontology: PropertyOntology, properties: Optional[Dict[str, Any]] = None) -> None:
         self.node_id = node_id

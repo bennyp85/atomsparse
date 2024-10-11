@@ -25,3 +25,24 @@ class KnowledgeGraph:
 
     def delete_edge(self, source_id, target_id, relationship):
         self.edges = [edge for edge in self.edges if not (edge.source_id == source_id and edge.target_id == target_id and edge.relationship == relationship)]
+
+    def get_node(self, node_id):
+        return self.nodes.get(node_id, None)
+
+    def get_edge(self, source_id, target_id, relationship):
+        for edge in self.edges:
+            if edge.source_id == source_id and edge.target_id == target_id and edge.relationship == relationship:
+                return edge
+        return None
+
+    def update_node(self, node_id, properties):
+        if node_id not in self.nodes:
+            raise ValueError(f"Node with id {node_id} does not exist.")
+        node = self.nodes[node_id]
+        node.set_properties(properties)
+
+    def update_edge(self, source_id, target_id, relationship, properties):
+        edge = self.get_edge(source_id, target_id, relationship)
+        if not edge:
+            raise ValueError("Edge does not exist.")
+        edge.set_properties(properties)

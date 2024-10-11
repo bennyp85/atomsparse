@@ -63,12 +63,3 @@ class PropertyOntology:
         elif schema.data_type == PropertyType.LIST:
             return isinstance(value, list)
         return False
-
-# Example usage
-ontology = PropertyOntology()
-schema = PropertySchema(name="Author", data_type=PropertyType.STRING, description="The author of the work.", required=True)
-ontology.register_property(schema, [NodeType.BOOK])
-
-print(ontology.schemas)
-print(schema.to_dict())
-print(ontology.required_properties)
