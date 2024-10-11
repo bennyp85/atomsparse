@@ -38,6 +38,18 @@ class KnowledgeGraph:
         edge = Edge(source_id, target_id, relationship, self.property_ontology, properties)
         self.graph.add_edge(source_id, target_id, relationship=edge.relationship, properties=edge.properties)
 
+    def add_character_uses_literary_device(self, character_id: str, device_id: str, properties: Optional[Dict[str, any]] = None) -> None:
+        self.add_edge(character_id, device_id, RelationshipType.USES, properties)
+
+    def add_character_participates_in_event(self, character_id: str, event_id: str, properties: Optional[Dict[str, any]] = None) -> None:
+        self.add_edge(character_id, event_id, RelationshipType.PARTICIPATES_IN, properties)
+
+    def add_event_occurs_in_setting(self, event_id: str, setting_id: str, properties: Optional[Dict[str, any]] = None) -> None:
+        self.add_edge(event_id, setting_id, RelationshipType.OCCURS_IN, properties)
+
+    def add_plot_point_involves_character(self, plot_point_id: str, character_id: str, properties: Optional[Dict[str, any]] = None) -> None:
+        self.add_edge(plot_point_id, character_id, RelationshipType.INVOLVES, properties)
+
     def delete_node(self, node_id: str) -> None:
         if node_id not in self.graph:
             raise KeyError(f"Node {node_id} does not exist.")
