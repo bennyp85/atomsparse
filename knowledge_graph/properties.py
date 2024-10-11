@@ -92,7 +92,11 @@ class PropertyOntology:
             return isinstance(value, int)
         elif schema.type == PropertyType.DATE:
             # Add date validation logic here
-            pass
+            try:
+                datetime.strptime(value, '%Y-%m-%d')
+                return True
+            except ValueError:
+                return False
         elif schema.type == PropertyType.BOOLEAN:
             return isinstance(value, bool)
 

@@ -24,12 +24,13 @@ class KnowledgeGraph:
         node = Node.create_node(node_id, node_type, self.property_ontology, properties)
         self.add_node(node)
 
-    def add_edge(self, edge: Edge) -> None:
-        if edge.source_id not in self.graph or edge.target_id not in self.graph:
-            raise ValueError(f"Both nodes {edge.source_id} and {edge.target_id} must exist in the graph.")
-        if self.graph.has_edge(edge.source_id, edge.target_id):
-            raise ValueError(f"Edge from {edge.source_id} to {edge.target_id} already exists.")
-        self.graph.add_edge(edge.source_id, edge.target_id, relationship=edge.relationship, properties=edge.properties)
+    def add_edge(self, source_id: str, target_id: str, relationship: RelationshipType, properties: Optional[Dict[str, any]] = None) -> None:
+        if source_id not in self.graph or target_id not in self.graph:
+            raise ValueError(f"Both nodes {source_id} and {target_id} must exist in the graph.")
+        if self.graph.has_edge(source_id, target_id):
+            raise ValueError(f"Edge from {source_id} to {target_id} already exists.")
+        edge = Edge(source_id, target_id, relationship, self.property_ontology, properties)
+        self.graph.add_edge(source_id, target_id, relationship=edge.relationship, properties=edge.properties)
 
     def delete_node(self, node_id: str) -> None:
         if node_id not in self.graph:

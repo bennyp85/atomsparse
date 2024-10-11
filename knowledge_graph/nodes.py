@@ -7,7 +7,7 @@ class Node:
         self.node_id = node_id
         self.node_type = node_type
         self.property_ontology = property_ontology
-        self.properties = {}
+        self.properties = {'type': node_type}
         if properties:
             self.set_properties(properties)
 

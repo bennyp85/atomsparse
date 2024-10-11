@@ -2,11 +2,15 @@
 from typing import Optional, Dict
 from .properties import PropertyOntology
 
+from knowledge_graph.relationships import RelationshipType
+
 class Edge:
-    def __init__(self, source_id: str, target_id: str, relationship: str, property_ontology: PropertyOntology, properties: Optional[Dict[str, any]] = None) -> None:
+    def __init__(self, source_id: str, target_id: str, relationship: RelationshipType, property_ontology: PropertyOntology, properties: Optional[Dict[str, any]] = None) -> None:
+        if not isinstance(relationship, RelationshipType):
+            raise ValueError(f"Invalid relationship type: {relationship}")
         self.source_id: str = source_id
         self.target_id: str = target_id
-        self.relationship: str = relationship
+        self.relationship: RelationshipType = relationship
         self.property_ontology = property_ontology
         self.properties: Dict[str, any] = {}
         if properties:
