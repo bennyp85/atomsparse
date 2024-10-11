@@ -23,7 +23,7 @@ class TestGraph(unittest.TestCase):
     def test_add_edge(self) -> None:
         self.graph.add_node_by_attributes("1", "Person", {"name": "John Doe", "age": 30})
         self.graph.add_node_by_attributes("2", "Pet", {"name": "Rex", "species": "Dog"})
-        edge = Edge.create_edge("1", "2", "owns", self.graph.property_ontology)
+        edge = Edge.create_edge("1", "2", RelationshipType.OWNS, self.graph.property_ontology)
         self.graph.add_edge(edge)
         self.assertIn(("1", "2"), self.graph.graph.edges)
         self.assertEqual(self.graph.graph.edges["1", "2"]["relationship"], "owns")
@@ -33,7 +33,7 @@ class TestGraph(unittest.TestCase):
         self.graph.add_node_by_attributes("1", "Person", properties)
         nodes = self.graph.get_nodes()
         self.assertEqual(nodes["1"]["type"], "Person")
-        self.assertEqual(nodes["1"]["properties"], properties)
+        self.assertEqual(nodes["1"]["properties"], {"type": "Person", **properties})
 
     def test_property_validation(self) -> None:
         # Valid properties

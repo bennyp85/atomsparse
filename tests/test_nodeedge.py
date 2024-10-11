@@ -12,6 +12,7 @@ class TestNodeEdge:
 
     def test_add_node_valid(self) -> None:
         properties: Dict[str, Any] = {"name": "John Doe", "age": 30}
+        self.graph.add_property_schema("name", PropertyType.STRING, "Name of the person")
         self.graph.add_node_by_attributes("1", "Person", properties)
         nodes = self.graph.get_nodes()
         assert nodes["1"]["type"] == "Person"
@@ -25,7 +26,7 @@ class TestNodeEdge:
     def test_add_edge_valid(self) -> None:
         self.graph.add_node_by_attributes("1", "Person")
         self.graph.add_node_by_attributes("2", "Person")
-        self.graph.add_edge(Edge("1", "2", "knows"))
+        self.graph.add_edge(Edge("1", "2", RelationshipType.KNOWS, self.graph.property_ontology))
         edges = self.graph.get_edges()
         assert edges["1"]["2"]["relationship"] == "knows"
 
