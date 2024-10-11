@@ -9,6 +9,20 @@ class KnowledgeGraphAPI:
         self.graph = KnowledgeGraph()
 
     def add_node(self, node_id: str, node_type: str, properties=None):
+        # Validate properties against the property ontology
+        if properties:
+            for prop_name, prop_value in properties.items():
+                if not self.graph.property_ontology.validate_property(prop_name, prop_value):
+                    raise ValueError(f"Invalid property value for {prop_name}")
+        
+        # Check if required properties are present
+        required_properties = self.graph.property_ontology.get_required_properties(node_type)
+        if required_properties:
+            for prop_name in required_properties:
+                if prop_name not in properties:
+                    raise ValueError(f"Missing required property: {prop_name}")
+        
+        # Create and add the node
         node = Node.create_node(node_id, node_type, self.graph.property_ontology, properties)
         self.graph.add_node(node)
 
