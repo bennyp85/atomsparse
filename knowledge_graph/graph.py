@@ -75,6 +75,18 @@ class KnowledgeGraph:
         schema = PropertySchema(name, property_type, description)
         self.property_ontology.add_schema(schema)
 
+    def add_character_properties(self) -> None:
+        self.add_property_schema("traits", PropertyType.STRING, "Traits of the character")
+        self.add_property_schema("backstory", PropertyType.STRING, "Backstory of the character")
+
+    def add_event_properties(self) -> None:
+        self.add_property_schema("significance", PropertyType.STRING, "Significance of the event")
+        self.add_property_schema("chronological_position", PropertyType.INTEGER, "Chronological position of the event")
+
+    def add_symbol_properties(self) -> None:
+        self.add_property_schema("meaning", PropertyType.STRING, "Meaning of the symbol")
+        self.add_property_schema("impact", PropertyType.STRING, "Impact of the symbol")
+
     def get_property_schema(self, name: str) -> PropertySchema:
         return self.property_ontology.get_schema(name)
 
