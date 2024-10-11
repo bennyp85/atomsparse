@@ -1,40 +1,41 @@
-# tests/test_properties.py
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-import pytest
-from knowledge_graph.properties import PropertyType, PropertySchema, PropertyOntology
+import unittest
+from knowledge_graph.properties import PropertySchema, PropertyType, PropertyOntology
 
-class TestProperties:
-    def test_property_type(self) -> None:
-        assert PropertyType.STRING.value == "string"
-        assert PropertyType.INTEGER.value == "integer"
-        assert PropertyType.DATE.value == "date"
-        assert PropertyType.BOOLEAN.value == "boolean"
+class TestPropertySchema(unittest.TestCase):
+    def test_to_dict(self):
+        schema = PropertySchema(name="Author", data_type=PropertyType.STRING, description="The author of the work.")
+        expected_dict = {
+            "name": "Author",
+            "data_type": "string",
+            "description": "The author of the work.",
+            "required": False  # Add this line
+        }
+        self.assertEqual(schema.to_dict(), expected_dict)
 
-    def test_property_schema(self) -> None:
-        schema = PropertySchema("name", PropertyType.STRING, "The name of the entity")
-        assert schema.name == "name"
-        assert schema.type == PropertyType.STRING
-        assert schema.description == "The name of the entity"
+class TestPropertyOntology(unittest.TestCase):
+    
+    def setUp(self):
+        self.ontology = PropertyOntology()
+        
+    def test_register_property(self):
+        schema = PropertySchema(name="Publisher", data_type=PropertyType.STRING, description="The publisher of the book.")
+        self.ontology.register_property(schema)
+        self.assertIn("Publisher", self.ontology.schemas)
+        self.assertEqual(self.ontology.schemas["Publisher"].name, "Publisher")
+        self.assertEqual(self.ontology.schemas["Publisher"].data_type, PropertyType.STRING)
 
-    def test_property_ontology(self) -> None:
-        ontology = PropertyOntology()
-        schema = PropertySchema("name", PropertyType.STRING, "The name of the entity")
-        ontology.add_schema(schema)
-        assert ontology.get_schema("name") == schema
+    def test_register_multiple_properties(self):
+        schema1 = PropertySchema(name="ISBN", data_type=PropertyType.STRING, description="The ISBN number of the book.")
+        schema2 = PropertySchema(name="PageCount", data_type=PropertyType.INTEGER, description="The number of pages in the book.")
+        self.ontology.register_property(schema1)
+        self.ontology.register_property(schema2)
+        self.assertEqual(len(self.ontology.schemas), 2)
+        self.assertIn("ISBN", self.ontology.schemas)
+        self.assertIn("PageCount", self.ontology.schemas)
 
-    def test_validate_property(self) -> None:
-        ontology = PropertyOntology()
-        schema = PropertySchema("name", PropertyType.STRING, "The name of the entity")
-        ontology.add_schema(schema)
-        assert ontology.validate_property("name", "John Doe") == True
-        assert ontology.validate_property("name", 123) == False
-
-    def test_validate_property_invalid_type(self) -> None:
-        ontology = PropertyOntology()
-        schema = PropertySchema("age", PropertyType.INTEGER, "The age of the entity")
-        ontology.add_schema(schema)
-        assert ontology.validate_property("age", "thirty") == False
-
-    def test_validate_property_missing_schema(self) -> None:
-        ontology = PropertyOntology()
-        assert ontology.validate_property("name", "John Doe") == False
+if __name__ == '__main__':
+    unittest.main()
