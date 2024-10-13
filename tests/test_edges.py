@@ -1,7 +1,7 @@
 # tests/test_edges.py
 
 import unittest
-from knowledge_graph.edges import Edge
+from knowledge_graph.edge_factory import EdgeFactory
 from unittest.mock import Mock
 from knowledge_graph.relationships import RelationshipType
 
@@ -24,7 +24,8 @@ class TestEdge(unittest.TestCase):
         self.assertEqual(str(edge), "Edge(source=source_id, target=target_id, relationship=RelationshipType.IS_A, properties={})")
 
     def test_create_edge(self):
-        edge = Edge.create_edge("source_id", "target_id", RelationshipType.IS_A, self.mock_property_ontology)
+        factory = EdgeFactory(self.mock_property_ontology)
+        edge = factory.create_edge("source_id", "target_id", RelationshipType.IS_A)
         self.assertEqual(edge.source_id, "source_id")
         self.assertEqual(edge.target_id, "target_id")
         self.assertEqual(edge.relationship, RelationshipType.IS_A)

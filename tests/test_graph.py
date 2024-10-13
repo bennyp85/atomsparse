@@ -2,8 +2,8 @@
 
 import unittest
 from knowledge_graph.graph import KnowledgeGraph
-from knowledge_graph.nodes import Node
-from knowledge_graph.edges import Edge
+from knowledge_graph.node_factory import NodeFactory
+from knowledge_graph.edge_factory import EdgeFactory
 from knowledge_graph.properties import NodeType, PropertyOntology, PropertySchema, PropertyType
 from knowledge_graph.relationships import RelationshipType
 
@@ -15,23 +15,27 @@ class TestKnowledgeGraph(unittest.TestCase):
         self.property_ontology.register_property(PropertySchema("importance", PropertyType.STRING, "Importance of the edge"))
 
     def test_add_node(self):
-        node = Node.create_node("1", NodeType.CHARACTER, self.property_ontology, {"name": "John Doe"})
+        node_factory = NodeFactory(self.property_ontology)
+        node = node_factory.create_node("1", NodeType.CHARACTER, {"name": "John Doe"})
         self.graph.add_node(node)
         self.assertIn("1", self.graph.nodes)
         self.assertEqual(self.graph.nodes["1"], node)
 
     def test_add_duplicate_node(self):
-        node = Node.create_node("1", NodeType.CHARACTER, self.property_ontology, {"name": "John Doe"})
+        node_factory = NodeFactory(self.property_ontology)
+        node = node_factory.create_node("1", NodeType.CHARACTER, {"name": "John Doe"})
         self.graph.add_node(node)
         with self.assertRaises(ValueError):
             self.graph.add_node(node)
 
     def test_add_edge(self):
-        node1 = Node.create_node("1", NodeType.CHARACTER, self.property_ontology, {"name": "John Doe"})
-        node2 = Node.create_node("2", NodeType.BOOK, self.property_ontology, {"name": "Book Title"})
+        node_factory = NodeFactory(self.property_ontology)
+        node1 = node_factory.create_node("1", NodeType.CHARACTER, {"name": "John Doe"})
+        node2 = node_factory.create_node("2", NodeType.BOOK, {"name": "Book Title"})
         self.graph.add_node(node1)
         self.graph.add_node(node2)
-        edge = Edge.create_edge("1", "2", RelationshipType.USES, self.property_ontology)
+        edge_factory = EdgeFactory(self.property_ontology)
+        edge = edge_factory.create_edge("1", "2", RelationshipType.USES)
         self.graph.add_edge(edge)
         self.assertIn(edge, self.graph.edges)
 
