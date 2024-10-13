@@ -28,8 +28,6 @@ class TestKnowledgeGraph(unittest.TestCase):
     def test_add_edge(self):
         self.builder.add_node("1", NodeType.CHARACTER, {"name": "John Doe"})
         self.builder.add_node("2", NodeType.BOOK, {"name": "Book Title"})
-        self.builder.add_node("1", NodeType.CHARACTER, {"name": "John Doe"})
-        self.builder.add_node("2", NodeType.BOOK, {"name": "Book Title"})
         self.builder.add_edge("1", "2", RelationshipType.USES)
         graph = self.builder.build()
         self.assertTrue(any(e.source_id == "1" and e.target_id == "2" and e.relationship == RelationshipType.USES for e in graph.edges))
