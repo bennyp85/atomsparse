@@ -51,7 +51,7 @@ class PropertyOntology:
     def validate_property(self, name: str, value: Any) -> bool:
         """Validate a property against its schema."""
         if name not in self.schemas:
-            return False
+            raise ValueError(f"Invalid property: {name}")
         
         schema = self.schemas[name]
         if schema.data_type == PropertyType.STRING:
