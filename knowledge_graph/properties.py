@@ -36,10 +36,16 @@ class PropertySchema:
             "required": self.required
         }
 
+# knowledge_graph/properties.py
+
 class PropertyOntology:
     def __init__(self):
         self.schemas: Dict[str, PropertySchema] = {}
         self.required_properties: Dict[NodeType, List[str]] = {node_type: [] for node_type in NodeType}
+
+        # Register "name" property schema
+        name_schema = PropertySchema(name="name", data_type=PropertyType.STRING, description="Name of the node")
+        self.register_property(name_schema)
 
     def register_property(self, property_schema: PropertySchema, node_types: List[NodeType] = None) -> None:
         """Register a new property schema."""

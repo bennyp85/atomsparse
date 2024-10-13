@@ -26,6 +26,8 @@ class RelationshipType(Enum):
     
 """
 
+# knowledge_graph/nodes.py
+
 class Node:
     def __init__(self, node_id: str, node_type: NodeType, property_ontology: PropertyOntology, properties: Optional[Dict[str, Any]] = None) -> None:
         self.node_id = node_id
@@ -34,7 +36,6 @@ class Node:
         self.properties = {'type': node_type.value}
         if properties:
             self.set_properties(properties)
-
 
     def set_properties(self, properties: Dict[str, Any]) -> None:
         for name, value in properties.items():
