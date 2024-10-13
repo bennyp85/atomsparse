@@ -2,6 +2,7 @@
 
 import unittest
 from knowledge_graph.graph_builder import GraphBuilder
+from knowledge_graph.properties import NodeType, PropertyType
 from knowledge_graph.properties import NodeType, PropertyOntology, PropertySchema, PropertyType
 from knowledge_graph.relationships import RelationshipType
 
@@ -21,7 +22,7 @@ class TestKnowledgeGraph(unittest.TestCase):
         self.builder.add_node("1", NodeType.CHARACTER, {"name": "John Doe"})
         graph = self.builder.build()
         with self.assertRaises(ValueError):
-            self.graph.add_node(node)
+            self.builder.add_node("1", NodeType.CHARACTER, {"name": "John Doe"})
 
     def test_add_edge(self):
         self.builder.add_node("1", NodeType.CHARACTER, {"name": "John Doe"})

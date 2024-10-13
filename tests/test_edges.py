@@ -2,6 +2,9 @@
 
 import unittest
 from knowledge_graph.graph_builder import GraphBuilder
+from knowledge_graph.properties import NodeType, PropertyType
+from knowledge_graph.relationships import RelationshipType
+from knowledge_graph.edge_factory import EdgeFactory
 
 class TestEdge(unittest.TestCase):
     def setUp(self):
@@ -44,7 +47,7 @@ class TestEdge(unittest.TestCase):
         self.builder.add_edge("source_id", "target_id", RelationshipType.IS_A, {"name": "Alice", "age": 30})
         graph = self.builder.build()
         edge = graph.get_edge("source_id", "target_id", RelationshipType.IS_A)
-        self.assertEqual(edge.properties, properties)
+        self.assertEqual(edge.properties, {"name": "Alice", "age": 30})
         self.mock_property_ontology.validate_property.assert_called()
 
     def test_add_property(self):
