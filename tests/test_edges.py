@@ -1,29 +1,31 @@
 # tests/test_edges.py
 
 import unittest
-from knowledge_graph.edge_factory import EdgeFactory
-from knowledge_graph.edges import Edge
-from unittest.mock import Mock
-from knowledge_graph.relationships import RelationshipType
+from knowledge_graph.graph_builder import GraphBuilder
 
 class TestEdge(unittest.TestCase):
     def setUp(self):
-        self.mock_property_ontology = Mock()
-        self.mock_property_ontology.validate_property.return_value = True
+        self.builder = GraphBuilder()
+        self.builder.add_property("name", PropertyType.STRING, "Name of the edge")
 
     def test_edge_creation(self):
-        factory = EdgeFactory(self.mock_property_ontology)
-        edge = factory.create_edge("source_id", "target_id", RelationshipType.IS_A)
+        self.builder.add_node("source_id", NodeType.CHARACTER, {"name": "Source"})
+        self.builder.add_node("target_id", NodeType.BOOK, {"name": "Target"})
+        self.builder.add_edge("source_id", "target_id", RelationshipType.IS_A)
+        graph = self.builder.build()
+        edge = graph.get_edge("source_id", "target_id", RelationshipType.IS_A)
         self.assertEqual(edge.source_id, "source_id")
         self.assertEqual(edge.target_id, "target_id")
         self.assertEqual(edge.relationship, RelationshipType.IS_A)
-        self.assertEqual(edge.property_ontology, self.mock_property_ontology)
         self.assertEqual(edge.properties, {})
         self.mock_property_ontology.validate_property.assert_not_called()
 
     def test_edge_representation(self):
-        factory = EdgeFactory(self.mock_property_ontology)
-        edge = factory.create_edge("source_id", "target_id", RelationshipType.IS_A)
+        self.builder.add_node("source_id", NodeType.CHARACTER, {"name": "Source"})
+        self.builder.add_node("target_id", NodeType.BOOK, {"name": "Target"})
+        self.builder.add_edge("source_id", "target_id", RelationshipType.IS_A)
+        graph = self.builder.build()
+        edge = graph.get_edge("source_id", "target_id", RelationshipType.IS_A)
         self.assertEqual(str(edge), "Edge(source=source_id, target=target_id, relationship=RelationshipType.IS_A, properties={})")
 
     def test_create_edge(self):
@@ -37,23 +39,29 @@ class TestEdge(unittest.TestCase):
         self.mock_property_ontology.validate_property.assert_not_called()
 
     def test_set_properties(self):
-        factory = EdgeFactory(self.mock_property_ontology)
-        edge = factory.create_edge("source_id", "target_id", RelationshipType.IS_A)
-        properties = {"name": "Alice", "age": 30}
-        edge.set_properties(properties)
+        self.builder.add_node("source_id", NodeType.CHARACTER, {"name": "Source"})
+        self.builder.add_node("target_id", NodeType.BOOK, {"name": "Target"})
+        self.builder.add_edge("source_id", "target_id", RelationshipType.IS_A, {"name": "Alice", "age": 30})
+        graph = self.builder.build()
+        edge = graph.get_edge("source_id", "target_id", RelationshipType.IS_A)
         self.assertEqual(edge.properties, properties)
         self.mock_property_ontology.validate_property.assert_called()
 
     def test_add_property(self):
-        factory = EdgeFactory(self.mock_property_ontology)
-        edge = factory.create_edge("source_id", "target_id", RelationshipType.IS_A)
-        edge.add_property("name", "Alice")
+        self.builder.add_node("source_id", NodeType.CHARACTER, {"name": "Source"})
+        self.builder.add_node("target_id", NodeType.BOOK, {"name": "Target"})
+        self.builder.add_edge("source_id", "target_id", RelationshipType.IS_A, {"name": "Alice"})
+        graph = self.builder.build()
+        edge = graph.get_edge("source_id", "target_id", RelationshipType.IS_A)
         self.assertEqual(edge.properties, {"name": "Alice"})
         self.mock_property_ontology.validate_property.assert_called_once_with("name", "Alice")
 
     def test_set_relationship(self):
-        factory = EdgeFactory(self.mock_property_ontology)
-        edge = factory.create_edge("source_id", "target_id", RelationshipType.IS_A)
+        self.builder.add_node("source_id", NodeType.CHARACTER, {"name": "Source"})
+        self.builder.add_node("target_id", NodeType.BOOK, {"name": "Target"})
+        self.builder.add_edge("source_id", "target_id", RelationshipType.IS_A)
+        graph = self.builder.build()
+        edge = graph.get_edge("source_id", "target_id", RelationshipType.IS_A)
         edge.set_relationship(RelationshipType.PART_OF)
         self.assertEqual(edge.relationship, RelationshipType.PART_OF)
 
