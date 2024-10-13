@@ -11,10 +11,7 @@ class TestEdge(unittest.TestCase):
     def setUp(self):
         self.mock_property_ontology = MagicMock()
         self.builder = GraphBuilder()
-        self.builder.add_property("name", PropertyType.STRING, "Name of the edge")
         self.builder.add_property("name", PropertyType.STRING, "Name of the node")
-        self.builder.add_property("age", PropertyType.INTEGER, "Age of the edge")
-        self.builder = GraphBuilder()
         self.builder.add_property("age", PropertyType.INTEGER, "Age of the edge")
 
     def test_edge_creation(self):
