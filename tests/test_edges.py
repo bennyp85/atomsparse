@@ -9,7 +9,9 @@ from knowledge_graph.edge_factory import EdgeFactory
 
 class TestEdge(unittest.TestCase):
     def setUp(self):
+        self.mock_property_ontology = MagicMock()
         self.builder = GraphBuilder()
+        self.builder.property_ontology = self.mock_property_ontology
         self.builder.add_property("name", PropertyType.STRING, "Name of the node")
         self.builder.add_property("age", PropertyType.INTEGER, "Age of the edge")
 
