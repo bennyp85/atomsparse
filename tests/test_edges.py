@@ -12,9 +12,7 @@ class TestEdge(unittest.TestCase):
         self.mock_property_ontology = MagicMock()
         self.builder = GraphBuilder()
         self.builder.property_ontology = self.mock_property_ontology
-        self.mock_property_ontology = MagicMock()
         self.builder = GraphBuilder()
-        self.builder.property_ontology = self.mock_property_ontology
         self.builder.add_property("name", PropertyType.STRING, "Name of the edge")
 
     def test_edge_creation(self):
