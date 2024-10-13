@@ -9,9 +9,10 @@ from knowledge_graph.edge_factory import EdgeFactory
 
 class TestEdge(unittest.TestCase):
     def setUp(self):
-        self.builder = GraphBuilder()
-        self.builder.add_property("name", PropertyType.STRING, "Name of the edge")
         self.mock_property_ontology = MagicMock()
+        self.builder = GraphBuilder()
+        self.builder.property_ontology = self.mock_property_ontology
+        self.builder.add_property("name", PropertyType.STRING, "Name of the edge")
 
     def test_edge_creation(self):
         self.builder.add_node("source_id", NodeType.CHARACTER, {"name": "Source"})
