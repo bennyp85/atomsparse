@@ -28,17 +28,17 @@ class TestKnowledgeGraph(unittest.TestCase):
     def test_add_edge(self):
         self.builder.add_node("1", NodeType.CHARACTER, {"name": "John Doe"})
         self.builder.add_node("2", NodeType.BOOK, {"name": "Book Title"})
-        with self.assertRaises(ValueError):
-            self.builder.add_edge("1", "3", RelationshipType.USES)
+        self.builder.add_node("1", NodeType.CHARACTER, {"name": "John Doe"})
+        self.builder.add_node("2", NodeType.BOOK, {"name": "Book Title"})
+        self.builder.add_edge("1", "2", RelationshipType.USES)
         graph = self.builder.build()
         self.assertTrue(any(e.source_id == "1" and e.target_id == "2" and e.relationship == RelationshipType.USES for e in graph.edges))
 
     def test_add_edge_with_nonexistent_nodes(self):
         self.builder.add_node("1", NodeType.CHARACTER, {"name": "John Doe"})
         self.builder.add_node("2", NodeType.BOOK, {"name": "Book Title"})
-        self.builder.add_edge("1", "2", RelationshipType.USES)
         with self.assertRaises(ValueError):
-            self.builder.build()
+            self.builder.add_edge("1", "3", RelationshipType.USES)
 
     def test_add_duplicate_edge(self):
         self.builder.add_node("1", NodeType.CHARACTER, {"name": "John Doe"})

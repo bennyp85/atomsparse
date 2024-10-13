@@ -21,6 +21,7 @@ class Edge:
             if not self.property_ontology.validate_property(name, value):
                 raise ValueError(f"Invalid property: {name}")
             self.properties[name] = value
+            self.property_ontology.validate_property(name, value)
 
     def add_property(self, name: str, value: any) -> None:
         if not self.property_ontology.validate_property(name, value):
