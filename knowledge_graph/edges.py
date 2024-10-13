@@ -15,13 +15,6 @@ class Edge:
         if properties:
             self.set_properties(properties)
 
-    @staticmethod
-    def create_edge(source_id: str, target_id: str, relationship: RelationshipType, property_ontology: PropertyOntology, properties: Optional[Dict[str, any]] = None) -> 'Edge':
-        if not source_id or not target_id or not relationship:
-            raise ValueError("source_id, target_id, and relationship are required")
-        if not isinstance(relationship, RelationshipType):
-            raise ValueError(f"Invalid relationship type: {relationship}")
-        return Edge(source_id, target_id, relationship, property_ontology, properties)
 
     def set_properties(self, properties: Dict[str, any]) -> None:
         for name, value in properties.items():

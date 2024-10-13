@@ -35,11 +35,6 @@ class Node:
         if properties:
             self.set_properties(properties)
 
-    @staticmethod
-    def create_node(node_id: str, node_type: NodeType, property_ontology: PropertyOntology, properties: Optional[Dict[str, Any]] = None) -> 'Node':
-        if not node_id or not node_type:
-            raise ValueError("node_id and node_type are required")
-        return Node(node_id, node_type, property_ontology, properties)
 
     def set_properties(self, properties: Dict[str, Any]) -> None:
         for name, value in properties.items():

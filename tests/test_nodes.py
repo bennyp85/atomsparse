@@ -4,7 +4,7 @@ import os
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from knowledge_graph.nodes import Node
+from knowledge_graph.node_factory import NodeFactory
 from knowledge_graph.properties import NodeType, PropertyOntology, PropertyType, PropertySchema
 
 class TestNode(unittest.TestCase):
@@ -14,7 +14,8 @@ class TestNode(unittest.TestCase):
         self.property_ontology.register_property(PropertySchema("age", PropertyType.INTEGER, "Age of the person"))
 
     def test_create_node(self):
-        node = Node.create_node("1", NodeType.CHARACTER, self.property_ontology, {"name": "John Doe", "age": 30})
+        factory = NodeFactory(self.property_ontology)
+        node = factory.create_node("1", NodeType.CHARACTER, {"name": "John Doe", "age": 30})
         self.assertEqual(node.node_id, "1")
         self.assertEqual(node.node_type, NodeType.CHARACTER)
         self.assertEqual(node.properties["type"], "Character")
