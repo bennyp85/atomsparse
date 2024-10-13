@@ -22,5 +22,13 @@ class TestEdgeFactory(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.factory.create_edge(source_id="1", target_id="2", relationship=RelationshipType.CAUSES, properties={"invalid_property": "value"})
 
+    def test_create_edge_with_invalid_relationship(self):
+        with self.assertRaises(ValueError):
+            self.factory.create_edge(source_id="1", target_id="2", relationship="invalid_relationship", properties={"weight": 5})
+
+    def test_create_edge_with_missing_property(self):
+        with self.assertRaises(ValueError):
+            self.factory.create_edge(source_id="1", target_id="2", relationship=RelationshipType.IS_A, properties={"missing_property": 5})
+
 if __name__ == '__main__':
     unittest.main()

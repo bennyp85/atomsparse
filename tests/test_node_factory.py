@@ -20,5 +20,18 @@ class TestNodeFactory(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.factory.create_node(node_id="2", node_type=NodeType.CHARACTER, properties={"invalid_property": "value"})
 
+    def test_create_node_with_missing_property(self):
+        with self.assertRaises(ValueError):
+            self.factory.create_node(node_id="3", node_type=NodeType.PLOT_POINT, properties={"missing_property": "value"})
+
+    def test_create_node_with_multiple_properties(self):
+        self.ontology.register_property(PropertySchema(name="age", data_type=PropertyType.INTEGER, description="Age of the character"))
+        node = self.factory.create_node(node_id="4", node_type=NodeType.CHARACTER, properties={"name": "Winston", "age": 39})
+        self.assertIsInstance(node, Node)
+        self.assertEqual(node.node_id, "4")
+        self.assertEqual(node.node_type, NodeType.CHARACTER)
+        self.assertEqual(node.properties["name"], "Winston")
+        self.assertEqual(node.properties["age"], 39)
+
 if __name__ == '__main__':
     unittest.main()
