@@ -23,17 +23,20 @@ class TestNode(unittest.TestCase):
         self.assertEqual(node.properties["age"], 30)
 
     def test_create_node_without_properties(self):
-        node = Node.create_node("2", NodeType.BOOK, self.property_ontology)
+        factory = NodeFactory(self.property_ontology)
+        node = factory.create_node("2", NodeType.BOOK)
         self.assertEqual(node.node_id, "2")
         self.assertEqual(node.node_type, NodeType.BOOK)
         self.assertEqual(node.properties, {"type": "Book"})
 
     def test_create_node_with_invalid_property(self):
+        factory = NodeFactory(self.property_ontology)
         with self.assertRaises(ValueError):
-            Node.create_node("3", NodeType.CHARACTER, self.property_ontology, {"invalid_prop": "value"})
+            factory.create_node("3", NodeType.CHARACTER, {"invalid_prop": "value"})
 
     def test_node_representation(self):
-        node = Node.create_node("4", NodeType.LOCATION, self.property_ontology, {"name": "New York"})
+        factory = NodeFactory(self.property_ontology)
+        node = factory.create_node("4", NodeType.LOCATION, {"name": "New York"})
         expected_repr = "Node(id=4, type=Location, properties={'type': 'Location', 'name': 'New York'})"
         self.assertEqual(repr(node), expected_repr)
 
