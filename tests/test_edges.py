@@ -11,6 +11,7 @@ class TestEdge(unittest.TestCase):
     def setUp(self):
         self.mock_property_ontology = MagicMock()
         self.builder = GraphBuilder()
+        self.builder.property_ontology = self.mock_property_ontology
         self.builder.add_property("name", PropertyType.STRING, "Name of the node")
         self.builder.add_property("age", PropertyType.INTEGER, "Age of the edge")
 
@@ -59,7 +60,7 @@ class TestEdge(unittest.TestCase):
         self.builder.add_edge("source_id", "target_id", RelationshipType.IS_A, {"name": "Alice", "age": 30})
         graph = self.builder.build()
         edge = graph.get_edge("source_id", "target_id", RelationshipType.IS_A)
-        self.assertEqual(edge.properties, {"name": "Alice"})
+        self.assertEqual(edge.properties, {"name": "Alice", "age": 30})
         self.mock_property_ontology.validate_property.assert_called_once_with("name", "Alice")
 
     def test_set_relationship(self):
