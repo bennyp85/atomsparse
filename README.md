@@ -32,7 +32,15 @@ This project aims to create a simplified version of a knowledge graph system, wh
 └── main.py                           # Entry point to demonstrate how the knowledge graph can be created and used.
 ```
 
-## Features
+## Knowledge Graph Module
+
+The `knowledge_graph` module is a core component of this project, designed to represent and manipulate knowledge graphs. It provides the following functionalities:
+
+- **Node and Edge Management**: Create and manage nodes and edges, representing concepts and relationships within the graph.
+- **Property Validation**: Define and enforce property schemas to ensure data integrity across nodes and edges.
+- **Factories for Nodes and Edges**: Use `NodeFactory` and `EdgeFactory` to streamline the creation of nodes and edges with validated properties.
+- **Graph Operations**: Perform operations such as adding, deleting, and updating nodes and edges within the graph.
+- **Relationship Types**: Utilize predefined relationship types to establish connections between nodes.
 - **Knowledge Graph Representation**: Represent concepts as nodes and relationships as edges using Python.
 - **Basic Graph Operations**: Add nodes, edges, and properties to represent information in a structured manner.
 - **Property Validation System**: Define and enforce property schemas to ensure data integrity.
