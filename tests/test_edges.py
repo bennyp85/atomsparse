@@ -10,10 +10,9 @@ from knowledge_graph.edge_factory import EdgeFactory
 class TestEdge(unittest.TestCase):
     def setUp(self):
         self.mock_property_ontology = MagicMock()
-        self.builder = GraphBuilder()
         self.builder.property_ontology = self.mock_property_ontology
         self.builder = GraphBuilder()
-        self.builder.add_property("name", PropertyType.STRING, "Name of the edge")
+        self.builder.add_property("age", PropertyType.INTEGER, "Age of the edge")
 
     def test_edge_creation(self):
         self.builder.add_node("source_id", NodeType.CHARACTER, {"name": "Source"})
@@ -57,7 +56,7 @@ class TestEdge(unittest.TestCase):
     def test_add_property(self):
         self.builder.add_node("source_id", NodeType.CHARACTER, {"name": "Source"})
         self.builder.add_node("target_id", NodeType.BOOK, {"name": "Target"})
-        self.builder.add_edge("source_id", "target_id", RelationshipType.IS_A, {"name": "Alice"})
+        self.builder.add_edge("source_id", "target_id", RelationshipType.IS_A, {"name": "Alice", "age": 30})
         graph = self.builder.build()
         edge = graph.get_edge("source_id", "target_id", RelationshipType.IS_A)
         self.assertEqual(edge.properties, {"name": "Alice"})
