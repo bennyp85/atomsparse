@@ -125,11 +125,13 @@ class TestKnowledgeGraph(unittest.TestCase):
             self.graph.update_node("nonexistent", {"name": "Jane Doe"})
 
     def test_update_edge(self):
-        node1 = Node.create_node("1", NodeType.CHARACTER, self.property_ontology, {"name": "John Doe"})
-        node2 = Node.create_node("2", NodeType.BOOK, self.property_ontology, {"name": "Book Title"})
+        node_factory = NodeFactory(self.property_ontology)
+        node1 = node_factory.create_node("1", NodeType.CHARACTER, {"name": "John Doe"})
+        node2 = node_factory.create_node("2", NodeType.BOOK, {"name": "Book Title"})
         self.graph.add_node(node1)
         self.graph.add_node(node2)
-        edge = Edge.create_edge("1", "2", RelationshipType.USES, self.property_ontology)
+        edge_factory = EdgeFactory(self.property_ontology)
+        edge = edge_factory.create_edge("1", "2", RelationshipType.USES)
         self.graph.add_edge(edge)
         self.graph.update_edge("1", "2", RelationshipType.USES, {"importance": "high"})
         self.assertEqual(self.graph.get_edge("1", "2", RelationshipType.USES).properties["importance"], "high")
