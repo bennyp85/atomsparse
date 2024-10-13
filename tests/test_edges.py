@@ -1,6 +1,7 @@
 # tests/test_edges.py
 
 import unittest
+from unittest.mock import MagicMock
 from knowledge_graph.graph_builder import GraphBuilder
 from knowledge_graph.properties import NodeType, PropertyType
 from knowledge_graph.relationships import RelationshipType
@@ -10,6 +11,7 @@ class TestEdge(unittest.TestCase):
     def setUp(self):
         self.builder = GraphBuilder()
         self.builder.add_property("name", PropertyType.STRING, "Name of the edge")
+        self.mock_property_ontology = MagicMock()
 
     def test_edge_creation(self):
         self.builder.add_node("source_id", NodeType.CHARACTER, {"name": "Source"})
