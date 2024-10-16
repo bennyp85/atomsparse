@@ -1,5 +1,8 @@
 import unittest
 from reasoning.rules import apply_rule, is_rule_applicable
+from knowledge_graph.graph import KnowledgeGraph
+from knowledge_graph.nodes import Node
+from knowledge_graph.properties import PropertyOntology
 
 class TestRules(unittest.TestCase):
     def test_rule_applicability(self):
