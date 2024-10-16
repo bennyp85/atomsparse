@@ -1,5 +1,12 @@
 from typing import Callable, Dict, Any
 
+"""
+Example Rules:
+1. If a node represents a "Person" and has an "age" property greater than 18, then add a property "is_adult" with the value True.
+2. If a node represents a "Car" and has a "fuel" property equal to "empty", then add a property "needs_refuel" with the value True.
+3. If a node represents a "Student" and has a "grade" property less than 50, then add a property "needs_tutoring" with the value True.
+"""
+
 class Rule:
     def __init__(self, condition: Callable[[Dict[str, Any], str], bool], action: Callable[[Dict[str, Any], str], None]):
         self.condition = condition
