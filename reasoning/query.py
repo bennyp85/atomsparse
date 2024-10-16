@@ -1,3 +1,6 @@
+from knowledge_graph.properties import NodeType
+from knowledge_graph.relationships import RelationshipType
+
 def get_node_by_id(graph, node_id):
   """Retrieves a node from the graph based on its ID."""
   return graph.get_node(node_id)
