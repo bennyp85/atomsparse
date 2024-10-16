@@ -61,7 +61,7 @@ class TestQuery(unittest.TestCase):
         graph.add_node(node1)
         graph.add_node(node2)
         edge1 = Edge(source_id="1", target_id="2", relationship=RelationshipType.INVOLVES, property_ontology=ontology)
-        edge2 = Edge(source_id="2", target_id="1", relationship=RelationshipType.IS_A, property_ontology=ontology)
+        edge2 = Edge(source_id="2", target_id="1", relationship=RelationshipType.PART_OF, property_ontology=ontology)
         graph.add_edge(edge1)
         graph.add_edge(edge2)
 
@@ -72,8 +72,8 @@ class TestQuery(unittest.TestCase):
         self.assertEqual(len(retrieved_edges), 1)
         self.assertIn(edge1, retrieved_edges)
 
-        # Test retrieving edges with relationship IS_A
-        retrieved_edges = query.get_edges_by_relationship(RelationshipType.IS_A)
+        # Test retrieving edges with relationship PART_OF
+        retrieved_edges = query.get_edges_by_relationship(RelationshipType.PART_OF)
         self.assertEqual(len(retrieved_edges), 1)
         self.assertIn(edge2, retrieved_edges)
 
@@ -113,12 +113,12 @@ class TestQuery(unittest.TestCase):
         graph = KnowledgeGraph()
         node1 = Node(node_id="1", node_type=NodeType.BOOK, property_ontology=ontology)
         node2 = Node(node_id="2", node_type=NodeType.CHARACTER, property_ontology=ontology)
-        node3 = Node(node_id="3", node_type=NodeType.BOOK, property_ontology=ontology)
+        node3 = Node(node_id="3", node_type=NodeType.LOCATION, property_ontology=ontology)
         graph.add_node(node1)
         graph.add_node(node2)
         graph.add_node(node3)
         edge1 = Edge(source_id="1", target_id="2", relationship=RelationshipType.INVOLVES, property_ontology=ontology)
-        edge2 = Edge(source_id="2", target_id="3", relationship=RelationshipType.IS_A, property_ontology=ontology)
+        edge2 = Edge(source_id="2", target_id="3", relationship=RelationshipType.OCCURS_IN, property_ontology=ontology)
         graph.add_edge(edge1)
         graph.add_edge(edge2)
 
@@ -129,8 +129,8 @@ class TestQuery(unittest.TestCase):
         self.assertEqual(len(neighbors), 1)
         self.assertIn(node2, neighbors)
 
-        # Test retrieving neighbors of node2 with relationship IS_A
-        neighbors = query.get_neighbor_nodes("2", RelationshipType.IS_A)
+        # Test retrieving neighbors of node2 with relationship OCCURS_IN
+        neighbors = query.get_neighbor_nodes("2", RelationshipType.OCCURS_IN)
         self.assertEqual(len(neighbors), 1)
         self.assertIn(node3, neighbors)
 
