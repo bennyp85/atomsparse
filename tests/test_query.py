@@ -4,6 +4,7 @@ from knowledge_graph.nodes import Node
 from knowledge_graph.properties import NodeType, PropertyOntology
 from knowledge_graph.edges import Edge
 from knowledge_graph.relationships import RelationshipType
+from knowledge_graph.properties import PropertySchema, PropertyType
 from reasoning.query import get_node_by_id, get_nodes_by_type, get_edges_by_relationship, get_nodes_by_property_value, get_neighbor_nodes
 
 class TestQuery(unittest.TestCase):
