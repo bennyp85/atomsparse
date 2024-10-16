@@ -2,7 +2,7 @@ import unittest
 from knowledge_graph.graph import KnowledgeGraph
 from knowledge_graph.nodes import Node
 from knowledge_graph.properties import NodeType, PropertyOntology
-from reasoning.query import get_node_by_id
+from reasoning.query import get_node_by_id, get_nodes_by_type
 
 class TestQuery(unittest.TestCase):
 
