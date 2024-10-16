@@ -10,6 +10,7 @@ class TestQuery(unittest.TestCase):
 
     def test_get_node_by_id(self):
         ontology = PropertyOntology()
+        ontology.register_property(PropertySchema(name="age", data_type=PropertyType.INTEGER, description="Age of the entity"))
         graph = KnowledgeGraph()
         node1 = Node(node_id="1", node_type=NodeType.BOOK, property_ontology=ontology)
         graph.add_node(node1)
