@@ -2,7 +2,9 @@ import unittest
 from knowledge_graph.graph import KnowledgeGraph
 from knowledge_graph.nodes import Node
 from knowledge_graph.properties import NodeType, PropertyOntology
-from reasoning.query import get_node_by_id, get_nodes_by_type
+from knowledge_graph.edges import Edge
+from knowledge_graph.relationships import RelationshipType
+from reasoning.query import get_node_by_id, get_nodes_by_type, get_edges_by_relationship, get_nodes_by_property_value, get_neighbor_nodes
 
 class TestQuery(unittest.TestCase):
 
